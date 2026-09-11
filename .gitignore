@@ -1,0 +1,62 @@
+# .NET / C#
+**/bin/
+**/obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# Test results
+TestResults/
+*.trx
+
+# NuGet
+**/packages/
+*.nupkg
+*.snupkg
+
+# Local development configuration
+**/appsettings.Development.json
+
+# User secrets
+**/secrets.json
+
+# Angular / Node
+**/node_modules/
+
+# Angular build output
+**/dist/
+**/.angular/
+
+# Angular cache
+.angular/
+
+# npm logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# OS files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+!.vscode/settings.json
