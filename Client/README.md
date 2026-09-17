@@ -1,3 +1,8 @@
+## Run project
+To compile and start up the project locally:
+```bash
+npm run dev
+```
 
 
 # Angular Documentation
