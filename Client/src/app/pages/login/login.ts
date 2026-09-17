@@ -10,6 +10,16 @@ import { AuthService } from './../../services/auth.service';
 export class Login {
 	private authService = inject(AuthService);
 
+	isRegistering = false;
+
+	switchToRegister() {
+		this.isRegistering = true;
+	}
+
+	switchToLogin() {
+		this.isRegistering = false;
+	}
+
 	username = '';
 	password = '';
 	message = '';

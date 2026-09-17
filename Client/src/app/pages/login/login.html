@@ -1,23 +1,110 @@
 <p>login page</p>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
 
-<h2>Create account</h2>
+          @if (!isRegistering) {
+            <h2 class="card-title text-center mb-4">
+              Login
+            </h2>
 
-<input
-  type="text"
-  [(ngModel)]="username"
-  placeholder="Username"
-/>
+            <div class="mb-3">
+              <label for="username" class="form-label">
+                Username
+              </label>
 
-<input
-  type="password"
-  [(ngModel)]="password"
-  placeholder="Password"
-/>
+              <input
+                id="username"
+                type="text"
+                class="form-control"
+                [(ngModel)]="username"
+                placeholder="Enter username"
+              >
+            </div>
 
-<button (click)="register()">
-  Create account
-</button>
+            <div class="mb-3">
+              <label for="password" class="form-label">
+                Password
+              </label>
 
-@if (message) {
-  <p>{{ message }}</p>
-}
+              <input
+                id="password"
+                type="password"
+                class="form-control"
+                [(ngModel)]="password"
+                placeholder="Enter password"
+              >
+            </div>
+
+            <button
+              type="button"
+              class="btn btn-primary w-100"
+            >
+              Login
+            </button>
+
+            <div class="text-center mt-3">
+              <button
+                type="button"
+                class="btn btn-link text-danger"
+                (click)="switchToRegister()"
+              >
+                Register User
+              </button>
+            </div>
+          }
+
+          @if (isRegistering) {
+            <h2 class="card-title text-center mb-4">
+              Create Account
+            </h2>
+
+            <div class="mb-3">
+              <label for="register-username" class="form-label">
+                Username
+              </label>
+
+              <input
+                id="register-username"
+                type="text"
+                class="form-control"
+                [(ngModel)]="username"
+                placeholder="Enter username"
+              >
+            </div>
+
+            <div class="mb-3">
+              <label for="register-password" class="form-label">
+                Password
+              </label>
+
+              <input
+                id="register-password"
+                type="password"
+                class="form-control"
+                [(ngModel)]="password"
+                placeholder="Enter password"
+              >
+            </div>
+
+            <button
+              type="button"
+              class="btn btn-primary w-100"
+              (click)="register()"
+            >
+              Create Account
+            </button>
+          }
+
+          @if (message) {
+            <div class="alert alert-info mt-3 mb-0">
+              {{ message }}
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
