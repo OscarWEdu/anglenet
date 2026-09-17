@@ -1,1 +1,16 @@
-<router-outlet />
+<header>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container">
+			<a class="navbar-brand" routerLink="/home">AngleNet Library</a>
+			<div class="navbar-nav">
+				<a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
+				<a class="nav-link" routerLink="/login" routerLinkActive="active">Login</a>
+				<a class="nav-link" routerLink="/quotes" routerLinkActive="active">Quotes</a>
+			</div>
+		</div>
+	</nav>
+</header>
+
+<main class="container mt-4">
+	<router-outlet />
+</main>
