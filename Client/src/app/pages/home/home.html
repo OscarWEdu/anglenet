@@ -1,2 +1,12 @@
 <p>home works!</p>
-<h1>{{ message() }}</h1>
+<button (click)="addTest()">Add test</button>
+
+@if (error) {
+  <p>{{ error }}</p>
+}
+
+<ul>
+  @for (test of tests; track test.id) {
+    <li>{{ test.gura }}</li>
+  }
+</ul>

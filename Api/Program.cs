@@ -19,15 +19,24 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
-
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
 app.UseCors("AllowAngularDev");
 
-app.MapGet("/api/hello", () => new { message = "Hello from the API!" }).WithName("GetHello");
+app.MapGet("/api/tests", async (AppDbContext db) =>
+{
+    return await db.Tests.ToListAsync();
+});
+
+app.MapPost("/api/tests", async (Test test, AppDbContext db) =>
+{
+    db.Tests.Add(test);
+    await db.SaveChangesAsync();
+
+    return Results.Created($"/api/tests/{test.Id}", test);
+});
 
 app.Run();
