@@ -1,6 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BookService, Book } from './../../services/book.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
 	selector: 'app-home',
@@ -10,6 +11,7 @@ import { BookService, Book } from './../../services/book.service';
 })
 export class Home implements OnInit {
 	private bookService = inject(BookService);
+	protected authService = inject(AuthService);
 
 	selectedBook: Book | null = null;
 
@@ -19,7 +21,7 @@ export class Home implements OnInit {
 	protected books: Book[] = [];
 	searchTerm = '';
 
-	ngOnInit() {
+	loadBooks() {
 		this.bookService.getBooks().subscribe({
 			next: books => {
 				this.books = books;
@@ -28,6 +30,10 @@ export class Home implements OnInit {
 				console.error('Failed to load books:', error);
 			}
 		});
+	}
+
+	ngOnInit() {
+		this.loadBooks();
 	}
 
 	get filteredBooks(): Book[] {

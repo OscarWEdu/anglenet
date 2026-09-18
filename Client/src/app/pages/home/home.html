@@ -72,19 +72,29 @@
           </p>
 
           <div class="d-flex gap-2 mt-4">
-            <button
-              type="button"
-              class="btn btn-primary"
+            <span
+              [attr.title]="authService.currentUser() ? null : 'You must be signed in to edit'"
             >
-              Edit
-            </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                [disabled]="!authService.currentUser()"
+              >
+                Edit
+              </button>
+            </span>
 
-            <button
-              type="button"
-              class="btn btn-danger"
+            <span
+              [attr.title]="authService.currentUser() ? null : 'You must be signed in to delete'"
             >
-              Delete
-            </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                [disabled]="!authService.currentUser()"
+              >
+                Delete
+              </button>
+            </span>
           </div>
         </div>
       </div>
