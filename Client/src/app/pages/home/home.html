@@ -1,22 +1,31 @@
 <div class="container">
   <h1 class="mb-4">Books</h1>
 
+  <div class="mb-4">
+    <input
+      type="search"
+      class="form-control"
+      placeholder="Search books by title..."
+      [(ngModel)]="searchTerm"
+    >
+  </div>
+
     <div class="row g-4">
-    @for (book of books; track book.id) {
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-        <div class="book-card h-100">
-            <img
+    @for (book of filteredBooks; track book.id) {
+    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+      <div class="book-card h-100">
+          <img
             [src]="book.imageUrl"
             [alt]="book.title"
             class="book-cover"
             loading="lazy"
-            >
+          >
 
-            <h2 class="book-title">
+          <h2 class="book-title">
             {{ book.title }}
-            </h2>
+          </h2>
         </div>
-        </div>
+      </div>
     }
     </div>
 
