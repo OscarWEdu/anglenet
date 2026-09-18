@@ -1,8 +1,3 @@
-## Run project
-To compile and start up the project locally:
-```bash
-npm run dev
-```
 # anglenet
 
 A full-stack solution with an Angular 20 client and a .NET 9 minimal API, using JWT authentication and EF Core (SQL Server / LocalDB).
