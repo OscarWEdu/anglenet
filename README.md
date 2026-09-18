@@ -1,6 +1,7 @@
 # anglenet
 
 A full-stack solution with an Angular 20 client and a .NET 9 minimal API, using JWT authentication and EF Core (SQL Server / LocalDB).
+You can temporarily find the project live at https://kind-ocean-00442d00f.5.azurestaticapps.net/
 
 ## Project structure
 
@@ -72,3 +73,6 @@ To compile and start up the project locally:
 ```bash
 npm run dev
 ```
+
+## Licence
+CC-BY-NC 4.0
