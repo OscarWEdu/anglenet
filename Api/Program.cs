@@ -54,4 +54,5 @@ app.UseAuthorization();
 
 ApiEndpoints.MapEndpoints(app);
 
+await DbSeeder.SeedAsync(app.Services);
 app.Run();

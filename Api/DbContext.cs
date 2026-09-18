@@ -15,8 +15,6 @@ public class AppDbContext : DbContext
             .HasIndex(u => u.Username)
             .IsUnique();
     }
-
-    public DbSet<Test> Tests => Set<Test>();
     public DbSet<User> Users => Set<User>();
     public DbSet<Book> Books => Set<Book>();
 }

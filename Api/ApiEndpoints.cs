@@ -7,19 +7,6 @@ namespace anglenet;
 public static class ApiEndpoints
 {
 	public static void MapEndpoints(WebApplication app) {
-		app.MapGet("/api/tests", async (AppDbContext db) =>
-        {
-            return await db.Tests.ToListAsync();
-        });
-
-        app.MapPost("/api/tests", async (Test test, AppDbContext db) =>
-        {
-            db.Tests.Add(test);
-            await db.SaveChangesAsync();
-
-            return Results.Created($"/api/tests/{test.Id}", test);
-        });
-
         //User
         app.MapPost("/api/auth/register", async (
             RegisterRequest request,
