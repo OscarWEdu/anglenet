@@ -1,19 +1,38 @@
 <div class="container">
 	<div class="d-flex justify-content-between align-items-center mb-4">
 		<h1 class="mb-0">Quotes</h1>
+
+		<span
+			[attr.title]="authService.currentUser() ? 'Add a new quote' : 'You must be signed in to add a quote'"
+		>
+			<button
+				type="button"
+				class="btn btn-primary"
+				[disabled]="!authService.currentUser()"
+				(click)="startCreating()"
+				aria-label="Add quote"
+			>
+				<i class="fa-solid fa-plus"></i>
+				<span class="ms-2">Add Quote</span>
+			</button>
+		</span>
 	</div>
 
 	@if (quotes.length > 0) {
-		<div class="row g-4">
+		<div class="quotes-list">
 			@for (quote of quotes; track quote.id) {
-				<div class="col-12 col-md-6 col-lg-4">
-					<div class="card h-100">
-						<div class="card-body">
-							<p class="card-text fs-5 mb-0">
-								“{{ quote.text }}”
-							</p>
-						</div>
-					</div>
+				<div
+					class="card quote-list-item"
+					(click)="openQuote(quote)"
+					role="button"
+					tabindex="0"
+				>
+					<p class="fs-5 mb-1">
+						“{{ quote.text }}”
+					</p>
+					<p class="small text-muted mb-0">
+						Added by user #{{ quote.userId }}
+					</p>
 				</div>
 			}
 		</div>
@@ -21,5 +40,81 @@
 		<p class="text-muted">
 			No quotes found.
 		</p>
+	}
+
+	@if (selectedQuote || isCreating) {
+		<div class="quote-overlay" (click)="closeQuote()">
+			<div class="quote-details" (click)="$event.stopPropagation()">
+				<button
+					type="button"
+					class="btn-close quote-close"
+					aria-label="Close"
+					(click)="closeQuote()"
+				></button>
+
+				@if (isEditing && editingQuote) {
+					<div class="mb-3">
+						<label for="quote-text" class="form-label">Quote</label>
+						<textarea
+							id="quote-text"
+							class="form-control"
+							rows="4"
+							[(ngModel)]="editingQuote.text"
+						></textarea>
+					</div>
+
+				} @else if (selectedQuote) {
+					<p class="fs-4">
+						“{{ selectedQuote.text }}”
+					</p>
+				}
+
+				<div class="d-flex gap-2 mt-4">
+					@if (isEditing) {
+						<button
+							type="button"
+							class="btn btn-secondary"
+							(click)="cancelEditing()"
+						>
+							Cancel
+						</button>
+
+						<button
+							type="button"
+							class="btn btn-success"
+							(click)="saveQuote()"
+						>
+							Save
+						</button>
+					} @else if (selectedQuote) {
+						<span
+							[attr.title]="isOwner(selectedQuote) ? null : 'You can only edit your own quotes'"
+						>
+							<button
+								type="button"
+								class="btn btn-primary"
+								[disabled]="!isOwner(selectedQuote)"
+								(click)="startEditing()"
+							>
+								Edit
+							</button>
+						</span>
+
+						<span
+							[attr.title]="isOwner(selectedQuote) ? null : 'You can only delete your own quotes'"
+						>
+							<button
+								type="button"
+								class="btn btn-danger"
+								[disabled]="!isOwner(selectedQuote)"
+								(click)="deleteQuote()"
+							>
+								Delete
+							</button>
+						</span>
+					}
+				</div>
+			</div>
+		</div>
 	}
 </div>
