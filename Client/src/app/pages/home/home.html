@@ -1,12 +1,23 @@
-<p>home works!</p>
-<button (click)="addTest()">Add test</button>
+<div class="container">
+  <h1>Books</h1>
 
-@if (error) {
-  <p>{{ error }}</p>
-}
+  @for (book of books; track book.id) {
+    <div class="card mb-3">
+      <div class="card-body">
+        <h2 class="card-title">{{ book.title }}</h2>
 
-<ul>
-  @for (test of tests; track test.id) {
-    <li>{{ test.gura }}</li>
+        <p class="card-text">
+          {{ book.description }}
+        </p>
+
+        <p class="text-muted mb-0">
+          Published: {{ book.publicationDate }}
+        </p>
+
+        <p class="text-muted">
+          Last edited by: {{ book.lastEditedBy }}
+        </p>
+      </div>
+    </div>
   }
-</ul>
+</div>

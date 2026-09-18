@@ -1,6 +1,5 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { TestService } from './../../services/test.service';
-import { Test } from './../../models/test';
+import { BookService, Book } from './../../services/book.service';
 
 @Component({
 	selector: 'app-home',
@@ -9,35 +8,18 @@ import { Test } from './../../models/test';
 	styleUrl: './home.scss',
 })
 export class Home implements OnInit {
-	private testService = inject(TestService);
+	private bookService = inject(BookService);
 
-	tests: Test[] = [];
-	error = '';
+	protected books: Book[] = [];
 
 	ngOnInit() {
-		this.testService.getTests().subscribe({
-		next: tests => {
-			this.tests = tests;
-		},
-		error: error => {
-			console.error('GET /api/tests failed:', error);
-			this.error = 'Failed to load tests';
-		}
-		});
-	}
-
-	addTest() {
-		console.log('Add test clicked');
-
-		this.testService.createTest('rawr').subscribe({
-		next: test => {
-			console.log('Created test:', test);
-			this.tests.push(test);
-		},
-		error: error => {
-			console.error('POST /api/tests failed:', error);
-			this.error = 'Failed to create test';
-		}
+		this.bookService.getBooks().subscribe({
+			next: books => {
+				this.books = books;
+			},
+			error: error => {
+				console.error('Failed to load books:', error);
+			}
 		});
 	}
 }
