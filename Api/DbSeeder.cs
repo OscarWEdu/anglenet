@@ -152,5 +152,60 @@ public static class DbSeeder
         }
         await db.SaveChangesAsync();
 
+        var seededQuotes = new[]
+        {
+            new Quote
+            {
+                Text = "I saw, I came, I cleaned up - The big man",
+                UserId = user2.Id
+            },
+            new Quote
+            {
+                Text = "When I was, a young man, there's no need to feel down -Village Parades",
+                UserId = user1.Id
+            },
+            new Quote
+            {
+                Text = "There's so much sand - Skywaddler",
+                UserId = user2.Id
+            },
+            new Quote
+            {
+                Text = "It's Wingardium Levioooooooo - Wroomrinie",
+                UserId = user1.Id
+            },
+            new Quote
+            {
+                Text = "Ten detective series are sometimes more dated - Mr. Mr",
+                UserId = user2.Id
+            },
+            new Quote
+            {
+                Text = "Sometimes I think about butterfles - A child",
+                UserId = user1.Id
+            },
+            new Quote
+            {
+                Text = "Do you think that there are people - Me",
+                UserId = user2.Id
+            },
+            new Quote
+            {
+                Text = "I'm gonna do a headstand - Me.",
+                UserId = user1.Id
+            },
+            new Quote
+            {
+                Text = "Maybe Pol Pot just needed a drink - Some Guy",
+                UserId = user2.Id
+            }
+        };
+
+        foreach (var quote in seededQuotes)
+        {
+            db.Quotes.Add(quote);
+        }
+        await db.SaveChangesAsync();
+
 	}
 }
