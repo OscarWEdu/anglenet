@@ -3,7 +3,7 @@
     <div class="container">
       <a class="navbar-brand" routerLink="/home">AngleNet Library</a>
 
-      <div class="navbar-nav">
+      <div class="navbar-nav ms-auto">
 
         <a class="nav-link" routerLink="/quotes" routerLinkActive="active">
           <i class="fa-solid fa-quote-left"></i>
@@ -21,6 +21,15 @@
             <span class="ms-1">Login</span>
           </a>
         }
+        <button
+          type="button"
+          class="btn nav-link ms-3"
+          title="Toggle dark mode"
+          aria-label="Toggle dark mode"
+          (click)="toggleDarkMode()"
+        >
+          <i class="fa-solid fa-moon"></i>
+        </button>
       </div>
     </div>
   </nav>

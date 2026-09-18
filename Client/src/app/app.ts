@@ -11,4 +11,14 @@ import { AuthService } from './services/auth.service';
 export class App {
 	protected readonly title = signal('Client');
 	protected readonly authService = inject(AuthService);
+	isDarkMode = false;
+
+	toggleDarkMode(): void {
+		this.isDarkMode = !this.isDarkMode;
+
+		document.documentElement.setAttribute(
+			'data-bs-theme',
+			this.isDarkMode ? 'dark' : 'light'
+		);
+	}
 }
