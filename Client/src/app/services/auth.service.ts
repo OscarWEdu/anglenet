@@ -1,6 +1,14 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
+
+interface AuthResponse {
+	token: string;
+	user: {
+		id: number;
+		username: string;
+	};
+}
 
 export interface RegisterRequest {
 	username: string;
@@ -15,7 +23,36 @@ export class AuthService {
 
 	private apiUrl = 'http://localhost:5178/api/auth';
 
-	register(request: RegisterRequest): Observable<unknown> {
-		return this.http.post(`${this.apiUrl}/register`, request);
+	register(credentials: { username: string; password: string }): Observable<AuthResponse> {
+		return this.http.post<AuthResponse>(`${this.apiUrl}/register`, credentials)
+			.pipe(tap(response => this.setSession(response)));
+	}
+
+	login(credentials: { username: string; password: string }): Observable<AuthResponse> {
+		return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials)
+			.pipe(tap(response => this.setSession(response)));
+	}
+
+	logout() {
+		localStorage.removeItem('token');
+		localStorage.removeItem('user');
+	}
+
+	private setSession(response: AuthResponse) {
+		localStorage.setItem('token', response.token);
+		localStorage.setItem('user', JSON.stringify(response.user));
+	}
+
+	getToken(): string | null {
+		return localStorage.getItem('token');
+	}
+
+	getUser() {
+		const user = localStorage.getItem('user');
+		return user ? JSON.parse(user) : null;
+	}
+
+	isLoggedIn(): boolean {
+		return this.getToken() !== null;
 	}
 }

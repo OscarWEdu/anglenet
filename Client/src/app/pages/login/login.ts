@@ -47,4 +47,19 @@ export class Login {
 			}
 		});
 	}
+
+	login() {
+		this.authService.login({
+			username: this.username,
+			password: this.password
+		}).subscribe({
+			next: () => {
+				this.message = 'Logged on successfully!';
+			},
+			error: error => {
+				console.error(error);
+				this.message = error.error ?? 'Login failed.';
+			}
+		});
+	}
 }

@@ -22,7 +22,8 @@ public static class ApiEndpoints
         app.MapPost("/api/auth/register", async (
             RegisterRequest request,
             AppDbContext db,
-            IPasswordHasher<User> passwordHasher) =>
+            IPasswordHasher<User> passwordHasher,
+            JwtService jwtService) =>
             {
                 if (string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password))
                 {
@@ -39,17 +40,52 @@ public static class ApiEndpoints
                     Username = request.Username
                 };
 
-                user.PwHash = passwordHasher.HashPassword(
-                    user,
-                    request.Password);
+                user.PwHash = passwordHasher.HashPassword(user, request.Password);
 
                 db.Users.Add(user);
                 await db.SaveChangesAsync();
 
+                var token = jwtService.CreateToken(user);
+
                 return Results.Created($"/api/users/{user.Id}", new
                 {
-                    user.Id,
-                    user.Username
+                    token,
+                    user = new {user.Id, user.Username}
+                });
+            }
+        );
+
+        app.MapPost("/api/auth/login", async (
+            RegisterRequest request,
+            AppDbContext db,
+            IPasswordHasher<User> passwordHasher,
+            JwtService jwtService) =>
+            {
+                if (string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password))
+                {
+                    return Results.BadRequest("Missing Field.");
+                }
+
+                var user = await db.Users.SingleOrDefaultAsync(u => u.Username == request.Username);
+
+                if (user is null)
+                {
+                    return Results.Unauthorized();
+                }
+
+                var passwordResult = passwordHasher.VerifyHashedPassword(user, user.PwHash, request.Password);
+
+                if (passwordResult == PasswordVerificationResult.Failed)
+                {
+                    return Results.Unauthorized();
+                }
+
+                var token = jwtService.CreateToken(user);
+
+                return Results.Ok(new
+                {
+                    token,
+                    user = new {user.Id, user.Username}
                 });
             }
         );
