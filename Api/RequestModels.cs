@@ -13,3 +13,9 @@ public class BookRequest
 	public DateOnly PublicationDate { get; set; }
 	public string Description { get; set; } = "";
 }
+
+public class QuoteRequest
+{
+    public string Text { get; set; } = "";
+}
+

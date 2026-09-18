@@ -20,3 +20,13 @@ public class Book
 	public int LastEditedById { get; set; }
 	public User LastEditedBy { get; set; } = null!;
 }
+
+public class Quote
+{
+    public int Id { get; set; }
+
+    public string Text { get; set; } = "";
+
+    public int UserId { get; set; }
+    public User User { get; set; } = null!;
+}

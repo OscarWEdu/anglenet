@@ -196,5 +196,129 @@ public static class ApiEndpoints
 
             return Results.NoContent();
         }).RequireAuthorization();
+
+        //Quotes
+        app.MapGet("/api/quotes", async (
+            AppDbContext db,
+            ClaimsPrincipal user) =>
+        {
+            var userIdClaim = user.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdClaim, out var userId))
+            {
+                return Results.Unauthorized();
+            }
+
+            var quotes = await db.Quotes
+                .Where(q => q.UserId == userId)
+                .OrderBy(q => q.Id)
+                .Select(q => new
+                {
+                    q.Id,
+                    q.Text,
+                    q.UserId
+                })
+                .ToListAsync();
+
+            return Results.Ok(quotes);
+        }).RequireAuthorization();
+
+        app.MapPost("/api/quotes", async (
+            QuoteRequest request,
+            AppDbContext db,
+            ClaimsPrincipal user) =>
+        {
+            var userIdClaim = user.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdClaim, out var userId))
+            {
+                return Results.Unauthorized();
+            }
+
+            if (string.IsNullOrWhiteSpace(request.Text))
+            {
+                return Results.BadRequest("Quote text is required.");
+            }
+
+            var quote = new Quote
+            {
+                Text = request.Text,
+                UserId = userId
+            };
+
+            db.Quotes.Add(quote);
+            await db.SaveChangesAsync();
+
+            return Results.Created($"/api/quotes/{quote.Id}", new
+            {
+                quote.Id,
+                quote.Text,
+                quote.UserId
+            });
+        }).RequireAuthorization();
+
+        app.MapPut("/api/quotes/{id:int}", async (
+            int id,
+            QuoteRequest request,
+            AppDbContext db,
+            ClaimsPrincipal user) =>
+        {
+            var userIdClaim = user.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdClaim, out var userId))
+            {
+                return Results.Unauthorized();
+            }
+
+            if (string.IsNullOrWhiteSpace(request.Text))
+            {
+                return Results.BadRequest("Quote text is required.");
+            }
+
+            var quote = await db.Quotes
+                .FirstOrDefaultAsync(q => q.Id == id && q.UserId == userId);
+
+            if (quote is null)
+            {
+                return Results.NotFound();
+            }
+
+            quote.Text = request.Text;
+
+            await db.SaveChangesAsync();
+
+            return Results.Ok(new
+            {
+                quote.Id,
+                quote.Text,
+                quote.UserId
+            });
+        }).RequireAuthorization();
+
+        app.MapDelete("/api/quotes/{id:int}", async (
+            int id,
+            AppDbContext db,
+            ClaimsPrincipal user) =>
+        {
+            var userIdClaim = user.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdClaim, out var userId))
+            {
+                return Results.Unauthorized();
+            }
+
+            var quote = await db.Quotes
+                .FirstOrDefaultAsync(q => q.Id == id && q.UserId == userId);
+
+            if (quote is null)
+            {
+                return Results.NotFound();
+            }
+
+            db.Quotes.Remove(quote);
+            await db.SaveChangesAsync();
+
+            return Results.NoContent();
+        }).RequireAuthorization();
     }
 }

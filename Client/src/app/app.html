@@ -28,7 +28,7 @@
           aria-label="Toggle dark mode"
           (click)="toggleDarkMode()"
         >
-          <i class="fa-solid fa-moon"></i>
+          <i class="fa-solid" [class.fa-moon]="!isDarkMode" [class.fa-sun]="isDarkMode"></i>
         </button>
       </div>
     </div>
