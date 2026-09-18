@@ -18,4 +18,5 @@ public class AppDbContext : DbContext
 
     public DbSet<Test> Tests => Set<Test>();
     public DbSet<User> Users => Set<User>();
+    public DbSet<Book> Books => Set<Book>();
 }

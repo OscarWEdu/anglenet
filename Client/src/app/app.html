@@ -2,13 +2,24 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
       <a class="navbar-brand" routerLink="/home">AngleNet Library</a>
+
       <div class="navbar-nav">
-        <a class="nav-link" routerLink="/quotes" routerLinkActive="active">Quotes</a>
+
+        <a class="nav-link" routerLink="/quotes" routerLinkActive="active">
+          <i class="fa-solid fa-quote-left"></i>
+          <span class="ms-1">Quotes</span>
+        </a>
+
         @if (authService.currentUser(); as user) {
-          <a class="nav-link" routerLink="/profile" routerLinkActive="active">Profile</a>
-        } 
-        @else {
-          <a class="nav-link" routerLink="/login" routerLinkActive="active">Login</a>
+          <a class="nav-link" routerLink="/profile" routerLinkActive="active">
+            <i class="fa-solid fa-user"></i>
+            <span class="ms-1">Profile</span>
+          </a>
+        } @else {
+          <a class="nav-link" routerLink="/login" routerLinkActive="active">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            <span class="ms-1">Login</span>
+          </a>
         }
       </div>
     </div>
