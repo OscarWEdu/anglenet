@@ -1,13 +1,10 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 interface AuthResponse {
 	token: string;
-	user: {
-		id: number;
-		username: string;
-	};
+	user: { id: number; username: string; };
 }
 
 interface AuthUser {
@@ -27,8 +24,8 @@ export class AuthService {
 	private http = inject(HttpClient);
 	private apiUrl = 'http://localhost:5178/api/auth';
 
-	private userSubject = new BehaviorSubject<AuthUser | null>(this.getStoredUser());
-	user$ = this.userSubject.asObservable();
+	private user = signal<AuthUser | null>(this.getStoredUser())
+	readonly currentUser = this.user.asReadonly();
 
 	register(credentials: { username: string; password: string }): Observable<AuthResponse> {
 		return this.http.post<AuthResponse>(`${this.apiUrl}/register`, credentials)
@@ -43,15 +40,14 @@ export class AuthService {
 	logout() {
 		localStorage.removeItem('token');
 		localStorage.removeItem('user');
-		this.userSubject.next(null);
+		this.user.set(null);
 	}
 	
 	private setSession(response: AuthResponse) {
 		localStorage.setItem('token', response.token);
 		localStorage.setItem('user', JSON.stringify(response.user));
-		this.userSubject.next(response.user);
+		this.user.set(response.user);
 	}
-
 	private getStoredUser(): AuthUser | null {
 		const user = localStorage.getItem('user');
 		return user ? JSON.parse(user) : null;
