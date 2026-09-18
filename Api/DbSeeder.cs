@@ -46,7 +46,7 @@ public static class DbSeeder
             new Book
             {
                 Title = "The Hobbit",
-                ImageUrl = "https://covers.openlibrary.org/b/isbn/9780261102217-M.jpg",
+                ImageUrl = "https://covers.openlibrary.org/b/id/14627535-M.jpg",
                 PublicationDate = new DateOnly(1937, 9, 21),
                 Description = "A fantasy novel following Bilbo Baggins on an unexpected adventure.",
                 LastEditedById = user1.Id
@@ -151,6 +151,6 @@ public static class DbSeeder
             }
         }
         await db.SaveChangesAsync();
-        
+
 	}
 }

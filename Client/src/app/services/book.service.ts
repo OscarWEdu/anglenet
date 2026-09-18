@@ -11,6 +11,13 @@ export interface Book {
 	lastEditedBy: string;
 }
 
+export interface BookRequest {
+	title: string;
+	imageUrl: string;
+	publicationDate: string;
+	description: string;
+}
+
 @Injectable({
 	providedIn: 'root'
 })
@@ -22,4 +29,16 @@ export class BookService {
 		const url = search ? `${this.apiUrl}?search=${encodeURIComponent(search)}` : this.apiUrl;
 		return this.http.get<Book[]>(url);
 	}
+
+    deleteBook(id: number): Observable<void> {
+        return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    }
+
+    updateBook(id: number, request: BookRequest): Observable<Book> {
+        return this.http.put<Book>(`${this.apiUrl}/${id}`, request);
+    }
+    
+    createBook(request: BookRequest): Observable<Book> {
+        return this.http.post<Book>(this.apiUrl, request);
+    }
 }

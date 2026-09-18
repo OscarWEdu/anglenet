@@ -1,5 +1,21 @@
 <div class="container">
-  <h1 class="mb-4">Books</h1>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <span
+      [attr.title]="authService.currentUser() ? 'Add a new book' : 'You must be signed in to add a book'"
+    >
+      <button
+        type="button"
+        class="btn btn-primary"
+        [disabled]="!authService.currentUser()"
+        (click)="startCreating()"
+        aria-label="Add book"
+      >
+        <i class="fa-solid fa-plus"></i>
+        <span class="ms-2">Add Book</span>
+      </button>
+    </span>
+  </div>
+
 
   <div class="mb-4">
     <input
@@ -34,7 +50,7 @@
     }
   </div>
 
-  @if (selectedBook) {
+  @if (selectedBook || isCreating) {
   <div class="book-overlay" (click)="closeBook()">
     <div
       class="book-details"
@@ -49,29 +65,102 @@
 
       <div class="row g-4">
         <div class="col-md-4">
-          <img
-            [src]="selectedBook.imageUrl"
-            [alt]="selectedBook.title"
-            class="book-details-cover"
-          >
+          @if (isEditing && editingBook) {
+            <img
+              [src]="editingBook.imageUrl"
+              [alt]="editingBook.title"
+              class="book-details-cover"
+            >
+          } @else if (selectedBook) {
+            <img
+              [src]="selectedBook.imageUrl"
+              [alt]="selectedBook.title"
+              class="book-details-cover"
+            >
+          }
         </div>
 
+
         <div class="col-md-8">
-          <h2>{{ selectedBook.title }}</h2>
+        @if (isEditing && editingBook) {
+          <div class="mb-3">
+            <label for="book-title" class="form-label">Title</label>
+            <input
+              id="book-title"
+              type="text"
+              class="form-control"
+              [(ngModel)]="editingBook.title"
+            >
+          </div>
 
-          <p class="text-muted">
-            Published {{ selectedBook.publicationDate }}
-          </p>
+          <div class="mb-3">
+            <label for="book-image-url" class="form-label">Cover image URL</label>
+            <input
+              id="book-image-url"
+              type="url"
+              class="form-control"
+              [(ngModel)]="editingBook.imageUrl"
+            >
+          </div>
 
-          <p>
-            {{ selectedBook.description }}
-          </p>
+          <div class="mb-3">
+            <label for="book-publication-date" class="form-label">Publication date</label>
+            <input
+              id="book-publication-date"
+              type="date"
+              class="form-control"
+              [(ngModel)]="editingBook.publicationDate"
+            >
+          </div>
 
-          <p class="small text-muted">
-            Last edited by {{ selectedBook.lastEditedBy }}
-          </p>
+          <div class="mb-3">
+            <label for="book-description" class="form-label">Description</label>
+            <textarea
+              id="book-description"
+              class="form-control"
+              rows="6"
+              [(ngModel)]="editingBook.description"
+            ></textarea>
+          </div>
 
-          <div class="d-flex gap-2 mt-4">
+          @if (selectedBook) {
+            <p class="small text-muted">
+              Last edited by {{ selectedBook.lastEditedBy }}
+            </p>
+          }
+        } @else if (selectedBook) {
+            <h2>{{ selectedBook.title }}</h2>
+
+            <p class="text-muted">
+              Published {{ selectedBook.publicationDate }}
+            </p>
+
+            <p>
+              {{ selectedBook.description }}
+            </p>
+
+            <p class="small text-muted">
+              Last edited by {{ selectedBook.lastEditedBy }}
+            </p>
+          }
+        <div class="d-flex gap-2 mt-4">
+          @if (isEditing) {
+            <button
+              type="button"
+              class="btn btn-secondary"
+              (click)="cancelEditing()"
+            >
+              Cancel
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-success"
+              (click)="saveBook()"
+            >
+              Save
+            </button>
+          } @else {
             <span
               [attr.title]="authService.currentUser() ? null : 'You must be signed in to edit'"
             >
@@ -79,6 +168,7 @@
                 type="button"
                 class="btn btn-primary"
                 [disabled]="!authService.currentUser()"
+                (click)="startEditing()"
               >
                 Edit
               </button>
@@ -91,12 +181,14 @@
                 type="button"
                 class="btn btn-danger"
                 [disabled]="!authService.currentUser()"
+                (click)="deleteBook()"
               >
                 Delete
               </button>
             </span>
-          </div>
+          }
         </div>
+      </div>
       </div>
     </div>
   </div>
