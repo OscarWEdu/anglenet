@@ -1,6 +1,7 @@
 # .NET / C#
 **/bin/
 **/obj/
+**.exe
 
 # Visual Studio
 .vs/
@@ -64,4 +65,4 @@ Desktop.ini
 !.vscode/settings.json
 
 # 
-*./publish
+**/publish/
