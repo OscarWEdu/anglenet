@@ -12,8 +12,13 @@
 
     <div class="row g-4">
     @for (book of filteredBooks; track book.id) {
-    <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-      <div class="book-card h-100">
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+        <div
+          class="book-card h-100"
+          (click)="openBook(book)"
+          role="button"
+          tabindex="0"
+        >
           <img
             [src]="book.imageUrl"
             [alt]="book.title"
@@ -27,6 +32,64 @@
         </div>
       </div>
     }
+  </div>
+
+  @if (selectedBook) {
+  <div class="book-overlay" (click)="closeBook()">
+    <div
+      class="book-details"
+      (click)="$event.stopPropagation()"
+    >
+      <button
+        type="button"
+        class="btn-close book-close"
+        aria-label="Close"
+        (click)="closeBook()"
+      ></button>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <img
+            [src]="selectedBook.imageUrl"
+            [alt]="selectedBook.title"
+            class="book-details-cover"
+          >
+        </div>
+
+        <div class="col-md-8">
+          <h2>{{ selectedBook.title }}</h2>
+
+          <p class="text-muted">
+            Published {{ selectedBook.publicationDate }}
+          </p>
+
+          <p>
+            {{ selectedBook.description }}
+          </p>
+
+          <p class="small text-muted">
+            Last edited by {{ selectedBook.lastEditedBy }}
+          </p>
+
+          <div class="d-flex gap-2 mt-4">
+            <button
+              type="button"
+              class="btn btn-primary"
+            >
+              Edit
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-danger"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+}
 
 </div>

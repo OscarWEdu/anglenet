@@ -11,6 +11,11 @@ import { BookService, Book } from './../../services/book.service';
 export class Home implements OnInit {
 	private bookService = inject(BookService);
 
+	selectedBook: Book | null = null;
+
+	openBook(book: Book) { this.selectedBook = book; }
+	closeBook() { this.selectedBook = null; }
+
 	protected books: Book[] = [];
 	searchTerm = '';
 
