@@ -54,7 +54,7 @@ export class Login {
 			password: this.password
 		}).subscribe({
 			next: () => {
-				this.message = 'Logged on successfully!';
+				this.router.navigate(['/']);
 			},
 			error: error => {
 				console.error(error);
