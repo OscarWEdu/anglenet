@@ -1,6 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 interface AuthResponse {
 	token: string;
@@ -22,7 +23,7 @@ export interface RegisterRequest {
 })
 export class AuthService {
 	private http = inject(HttpClient);
-	private apiUrl = 'http://localhost:5178/api/auth';
+	private apiUrl = `${environment.apiUrl}`;
 
 	private user = signal<AuthUser | null>(this.getStoredUser())
 	readonly currentUser = this.user.asReadonly();
