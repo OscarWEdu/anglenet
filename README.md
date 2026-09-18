@@ -52,7 +52,7 @@ A full-stack solution with an Angular 20 client and a .NET 9 minimal API, using 
    npm install
    ```
 
-2. Point the app at your API. Check `src/environments/environment.ts` (or wherever `apiUrl` / service `apiUrl` fields are defined) and confirm the base URL matches the port the API is running on, e.g.:
+2. Point the app at your API. Check `src/environments/environment.ts` and confirm the base URL matches the port the API is running on, e.g.:
    ```typescript
    export const environment = {
      production: false,
