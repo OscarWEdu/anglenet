@@ -21,9 +21,12 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularDev", policy =>
     {
-        policy.WithOrigins("http://localhost:4200")
-            .AllowAnyHeader()
-            .AllowAnyMethod();
+        policy.WithOrigins(
+                "http://localhost:4200",
+                "https://kind-ocean-00442d00f.5.azurestaticapps.net"
+              )
+              .AllowAnyHeader()
+              .AllowAnyMethod();
     });
 });
 
