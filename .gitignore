@@ -62,3 +62,6 @@ Desktop.ini
 !.vscode/launch.json
 !.vscode/tasks.json
 !.vscode/settings.json
+
+# 
+*./publish
