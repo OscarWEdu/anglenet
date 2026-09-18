@@ -1,23 +1,23 @@
 <div class="container">
-  <h1>Books</h1>
+  <h1 class="mb-4">Books</h1>
 
-  @for (book of books; track book.id) {
-    <div class="card mb-3">
-      <div class="card-body">
-        <h2 class="card-title">{{ book.title }}</h2>
+    <div class="row g-4">
+    @for (book of books; track book.id) {
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+        <div class="book-card h-100">
+            <img
+            [src]="book.imageUrl"
+            [alt]="book.title"
+            class="book-cover"
+            loading="lazy"
+            >
 
-        <p class="card-text">
-          {{ book.description }}
-        </p>
-
-        <p class="text-muted mb-0">
-          Published: {{ book.publicationDate }}
-        </p>
-
-        <p class="text-muted">
-          Last edited by: {{ book.lastEditedBy }}
-        </p>
-      </div>
+            <h2 class="book-title">
+            {{ book.title }}
+            </h2>
+        </div>
+        </div>
+    }
     </div>
-  }
+
 </div>
